@@ -1,17 +1,15 @@
-FROM openjdk:17-alpine AS builder
+FROM ubuntu:latest AS build
 
-COPY ../.mvn .mvn
-COPY ../mvnw .
-COPY ../pom.xml .
-COPY ../src src
-RUN chmod +x mvnw
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
 
-RUN ./mvnw clean package
+RUN ./gradlew bootJar --no-daemon
 
-FROM openjdk:17-alpine
-
-COPY --from=builder target/*.jar /app.jar
+FROM openjdk:17-jdk-slim
 
 EXPOSE 9090
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY --from=build /build/libs/demo-1.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
