@@ -1,15 +1,13 @@
-FROM ubuntu:latest AS build
-
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+FROM maven:3.9.0-eclipse-temurin-17-alpine AS build
 COPY . .
+RUN mvn clean package -DskipTests
 
-RUN ./gradlew bootJar --no-daemon
+#
+# Package stage
+#
 
-FROM openjdk:17-jdk-slim
-
+FROM openjdk: 19
+COPY --from=build /target/springrest_api_app.jar springrest_api_app.jar
+# ENV PORT=8080
 EXPOSE 9090
-
-COPY --from=build /build/libs/demo-1.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "springrest_api_app.jar"]
