@@ -1,13 +1,5 @@
-FROM maven:3.9.0-eclipse-temurin-17-alpine AS build
-COPY . .
-RUN mvn clean package -DskipTests
-
-#
-# Package stage
-#
-
-FROM openjdk: 19
-COPY --from=build /target/springrest_api_app.jar springrest_api_app.jar
-# ENV PORT=8080
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+COPY target/*.jar springrest_api_app.jar
+ENTRYPOINT ["java","-jar","/springrest_api_app.jar"]
 EXPOSE 9090
-ENTRYPOINT ["java", "-jar", "springrest_api_app.jar"]
