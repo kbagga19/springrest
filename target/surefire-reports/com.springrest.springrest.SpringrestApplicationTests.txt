@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.springrest.springrest.SpringrestApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.239 s - in com.springrest.springrest.SpringrestApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.249 s - in com.springrest.springrest.SpringrestApplicationTests
